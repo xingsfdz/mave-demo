@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xingsfdz</groupId>
+    <artifactId>demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.xingsfdz</groupId>
+  <artifactId>demo-web</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>demo-web Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+  	<java.version>1.8</java.version>
+  </properties>
+  
+  <build>
+    <finalName>demo-web</finalName>
+    
+    <!-- 指定需要打包的资源，按照下面的结构很明显src/main/config不在范围内，是不能打包进来的 -->
+    	 <resources>
+	        <resource>
+	            <filtering>true</filtering>
+	            <directory>${project.basedir}/src/main/resources</directory>
+	            <includes>
+	                <include>*/*</include><!-- 可以过滤指定具体的文件，这里表示resources子目录的所有文件 -->
+	            </includes>
+<!-- 	        <excludes>  这个标签标识指定排除的文件，排除掉不需要打包的
+		        <exclude>spring/*</exclude>表示排除spring目录下面的
+		    </excludes>  -->
+	        </resource>
+	    </resources>
+	    
+	<!-- 读取配置文件的插件，该jar使用maven我机器上用不了，我是本地安装后使用的，需要的可以在我的资源里面下载 -->
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+                <execution>
+                    <id>default-cli</id>
+                    <phase>initialize</phase>
+                    <goals>
+                        <goal>read-project-properties</goal>
+                        <!-- <goal>write-project-properties</goal> 配置该行必须配置<outputFile>标签-->
+                    </goals>
+                    <configuration>
+                        <files>
+                            <file>src/main/config/db-config.properties</file><!-- 指定读取的文件 -->
+                        </files>
+                        <!-- <outputFile></outputFile> 指定变量取值后输出的文件-->
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+    
+</build>
+</project>
+<!-- 以上如有疑问，请添加qq群218254993交流 -->

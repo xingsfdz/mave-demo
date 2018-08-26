@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.xingsfdz</groupId>
+  <artifactId>demo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>demo</name>
+  <url>http://maven.apache.org</url>
+
+<!-- 定义一些属性-->
+  	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- 定义编码 -->
+		<demo.version>0.0.1-SNAPSHOT</demo.version><!-- 当前项目版本 -->
+		<junit.version>4.10</junit.version><!-- junit版本 -->
+		<slf4j.version>1.6.1</slf4j.version>
+		<spring.maven.artifact.version>3.2.0.RELEASE</spring.maven.artifact.version>
+		<spring.security.artifact.version>3.1.0.RELEASE</spring.security.artifact.version>
+		<jackson.version>2.7.3</jackson.version>
+	</properties>
+
+<!--父类定义在dependencies里面的依赖标识之类自动继承，但是maven就近原则，如果子类自己重新定义，则以子类近一点的为准  -->
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version><!-- 引用porperties里面定义的版本 -->
+      <scope>test</scope><!-- 作用域 -->
+    </dependency>
+    
+    <dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${spring.security.artifact.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-asm</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+  </dependencies>
+  
+  <!-- 区别于直接dependencies里面的依赖是，这里面只是定义，子模块并不直接继承，如需使用则需要声明，只是不需要在填写版本号，这样可以通过父类统一管理版本号，子类而选择性的依赖 -->
+  <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.1</version><!-- 也可以直接使用版本号 -->
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+		</dependencies>
+  </dependencyManagement>
+  
+  <!-- 	<build>
+  	pluginManagement与 plugins的区别也是一个是前者是定义，声明，后面是直接定义使用
+		<pluginManagement>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.1.2</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			定义编译插件
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build> -->
+	
+	<!-- 配置私服地址与上传jar地址，需要安装管理jar服务器，我安装的是nexus服务器 -->
+ 	<distributionManagement>
+		<repository>
+			<id>nexus-public</id>
+			<name>Internal Release Repository</name>
+			<url>http://localhost:8081/repository/maven-public/</url>
+		</repository>
+		<snapshotRepository>
+	        <id>maven-snapshots</id>
+	        <name>ctxsdhy-hosted-snapshot</name>
+	        <url>http://localhost:8081/repository/maven-snapshots/</url>
+    	</snapshotRepository>
+	</distributionManagement>
+			
+  
+  <!-- 模块列表 -->
+  <modules>
+  	<module>demo-service</module>
+    <module>demo-web</module>
+  </modules>
+</project>
